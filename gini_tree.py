@@ -10,26 +10,24 @@ import pydotplus
 import numpy as np
 import csv
 
-DIR = ""
-#DIR = "D:/workspace/chatbot_pe/"
 
 col_names = ['id', 'date', 'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'waterfront','view','condition','grade','sqft_above','sqft_basement','yr_built','yr_renovated','zipcode','lat','long','sqft_living15','sqft_lot15','expensive']
 col_cri_names = ['id', 'date', 'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'waterfront','view','condition','grade','sqft_above','sqft_basement','yr_built','yr_renovated','zipcode','lat','long','sqft_living15','sqft_lot15']
-criterios = pd.read_csv("criterios.csv",sep=",",header=0,names=col_cri_names)
+criterios = pd.read_csv("D:/workspace/chatbot_pe/criterios.csv",sep=",",header=0,names=col_cri_names)
 
-accuracy_file = open(DIR+"precisoes","w")
+accuracy_file = open("D:/workspace/chatbot_pe/precisoes","w")
 row_output = []
 
 chatbot_tree_col_names = ['ID','Pergunta','A','Nó A','B','Nó B']
 
 for j in range(0,len(criterios)):
 
-    chatbot_tree = open(str(DIR+"arvore_"+str(j)+".csv"),"w")
+    chatbot_tree = open(str("D:/workspace/chatbot_pe/arvore_"+str(j)+".csv"),"w")
     chatbot_tree_writer = csv.writer(chatbot_tree, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     chatbot_tree_writer.writerow(chatbot_tree_col_names)
 
     # load dataset
-    data = pd.read_csv(DIR+"nossas_casas_tratadas_"+str(j)+".csv", header=0, names=col_names)
+    data = pd.read_csv("D:/workspace/chatbot_pe/nossas_casas_tratadas_"+str(j)+".csv", header=0, names=col_names)
 
     print(data)
 
@@ -59,7 +57,7 @@ for j in range(0,len(criterios)):
                     filled=True, rounded=True,
                     special_characters=True, feature_names = feature_cols,class_names=['barata','cara'],node_ids=True)
     graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
-    graph.write_png(DIR+'arvore_casas_'+str(j)+'.png')
+    graph.write_png('D:/workspace/chatbot_pe/arvore_casas_'+str(j)+'.png')
     Image(graph.create_png())
 
     children_left_array = clf.tree_.children_left #array of left children
@@ -76,7 +74,7 @@ for j in range(0,len(criterios)):
             else:
                 row_output.append("Essa casa provavelmente é cara.")
         else:
-            row_output.append(str(col_cri_names[features_array[x]])+"<="+str(criterios.iloc[j][features_array[x]])+"?")   
+            row_output.append(str(col_cri_names[features_array[x]])+"<="+str(criterios.iloc[0][features_array[x]])+"?")   
             row_output.append("SIM")
             row_output.append(children_left_array[x])
             row_output.append("NÃO")
@@ -84,7 +82,5 @@ for j in range(0,len(criterios)):
         
         chatbot_tree_writer.writerow(row_output)
         row_output = []
-    print("Criterios:\n\n")   
-    print(criterios.iloc[j])
     
 accuracy_file.close()

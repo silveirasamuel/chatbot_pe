@@ -1,18 +1,11 @@
 import pandas as pd
 import csv
 
-DIR = ""
-#DIR = "D:/workspace/chatbot_pe/"
-
-
-
 col_names = ['id', 'date', 'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'waterfront','view','condition','grade','sqft_above','sqft_basement','yr_built','yr_renovated','zipcode','lat','long','sqft_living15','sqft_lot15','expensive']
 col_cri_names = ['id', 'date', 'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'waterfront','view','condition','grade','sqft_above','sqft_basement','yr_built','yr_renovated','zipcode','lat','long','sqft_living15','sqft_lot15']
 
-
-
-dados_totais = pd.read_csv(DIR+"nossas_casas.csv",sep=',')
-criterios = pd.read_csv(DIR+"criterios.csv",sep=",",header=0,names=col_cri_names)
+dados_totais = pd.read_csv("D:/workspace/chatbot_pe/nossas_casas.csv",sep=',')
+criterios = pd.read_csv("D:/workspace/chatbot_pe/criterios.csv",sep=",",header=0,names=col_cri_names)
 print(criterios)
 
 dados_interesse = dados_totais[col_names]
@@ -44,7 +37,7 @@ for j in range(0,len(criterios)):
 
 
 
-    treated_data = open(str(DIR+"nossas_casas_tratadas_"+str(j)+".csv"),"w")
+    treated_data = open(str("D:/workspace/chatbot_pe/nossas_casas_tratadas_"+str(j)+".csv"),"w")
     treated_data_writer = csv.writer(treated_data, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     treated_data_writer.writerow(col_names)
     row = []
