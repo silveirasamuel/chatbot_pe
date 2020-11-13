@@ -24,7 +24,7 @@ X = data[feature_cols] # Features
 y = data.expensive # Target variable
 
 # Split dataset into training set and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05, random_state = 1) # 95% training and 5% test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.03, random_state = 0) # 95% training and 5% test
 
 
 # Create Decision Tree classifer object
@@ -36,7 +36,7 @@ clf = clf.fit(X_train,y_train)
 y_pred = clf.predict(X_test)
 
 # Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred,normalize=True, sample_weight=None))
 
 dot_data = StringIO()
 export_graphviz(clf, out_file=dot_data,  
